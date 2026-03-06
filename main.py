@@ -15,11 +15,11 @@ driver.get("https://www.go4schools.com/sso/account/login?site=Student")
 username = wait.until(
     EC.presence_of_element_located((By.ID, "usernameInput"))
 )
-username.send_keys("YOUR_USERNAME")
+username.send_keys(os.environ["YOUR_USERNAME")
 
 # password
 password = driver.find_element(By.ID, "passwordInput")
-password.send_keys("YOUR_PASSWORD")
+password.send_keys(os.environ["PASSWORD")
 password.send_keys(Keys.RETURN)
 
 # wait for timetable rows to appear
