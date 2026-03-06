@@ -1,21 +1,16 @@
 name: Fetch Timetable
 
 on:
-  workflow_dispatch:
-    inputs:
-      username:
-        description: "Go4Schools username"
-        required: true
-      password:
-        description: "Go4Schools password"
-        required: true
+  workflow_dispatch:  # manual run
+  schedule:
+    - cron: "0 6 * * 1-5" # 6:00 AM UTC Mon-Fri
 
 jobs:
   run:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Setup Python
@@ -23,21 +18,16 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install Firefox + Geckodriver
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y firefox geckodriver
-
       - name: Install dependencies
         run: |
-          pip install selenium
+          python -m pip install --upgrade pip
+          pip install selenium webdriver-manager
 
-      - name: Run script
+      - name: Run Selenium timetable scraper
         env:
-          USERNAME: ${{ inputs.username }}
-          PASSWORD: ${{ inputs.password }}
-        run: |
-          python sel.py
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+        run: python sel.py
 
       - name: Upload timetable artifact
         uses: actions/upload-artifact@v4
