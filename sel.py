@@ -7,23 +7,28 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+
 USERNAME = os.environ["USERNAME"]
 PASSWORD = os.environ["PASSWORD"]
 
+
+def get(cols, i):
+    return cols[i].text.strip() if len(cols) > i else ""
+
+
 options = Options()
 options.add_argument("--headless")
-options.add_argument("--disable-gpu")
 options.add_argument("--window-size=1920,1080")
 
 driver = webdriver.Firefox(options=options)
 wait = WebDriverWait(driver, 30)
 
-
-def get(cols, i):
-    return cols[i].text if len(cols) > i else ""
-
+timetable = []
+homework = []
 
 try:
+
+    # open login page
     driver.get("https://www.go4schools.com/sso/account/login?site=Student")
 
     username = wait.until(
@@ -35,15 +40,18 @@ try:
     password.send_keys(PASSWORD)
     password.send_keys(Keys.RETURN)
 
-    # wait for timetable rows to appear (ensures login finished)
+    # wait for timetable rows to load
     rows = wait.until(
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, "tr.ghost-content"))
     )
 
-    timetable = []
-
+    # scrape timetable
     for row in rows:
+
         cols = row.find_elements(By.XPATH, "./th|./td")
+
+        if len(cols) < 6:
+            continue
 
         timetable.append({
             "start": get(cols, 0),
@@ -52,6 +60,7 @@ try:
             "room": get(cols, 5)
         })
 
+    # go to homework page
     homework_link = wait.until(
         EC.element_to_be_clickable((By.XPATH, "//a[contains(., 'Homework')]"))
     )
@@ -59,13 +68,18 @@ try:
     homework_link.click()
 
     homework_rows = wait.until(
-        EC.presence_of_all_elements_located((By.CSS_SELECTOR, "table.table tbody tr"))
+        EC.presence_of_all_elements_located(
+            (By.CSS_SELECTOR, "table.table tbody tr")
+        )
     )
 
-    homework = []
-
+    # scrape homework
     for row in homework_rows:
+
         cols = row.find_elements(By.TAG_NAME, "td")
+
+        if len(cols) < 7:
+            continue
 
         teacher_info = get(cols, 6).split("\n")
 
@@ -83,11 +97,14 @@ finally:
     driver.quit()
 
 
+# save timetable
 with open("timetable.json", "w") as f:
     json.dump(timetable, f, indent=2)
 
+# save homework
 with open("homework.json", "w") as f:
     json.dump(homework, f, indent=2)
+
 
 print("Saved timetable.json")
 print("Saved homework.json")
