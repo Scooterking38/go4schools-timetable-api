@@ -46,5 +46,8 @@ for row in rows:
 
 for lesson in timetable:
     print(lesson)
+import json
 
+with open("timetable.json", "w") as f:
+    json.dump(timetable, f, indent=2)
 driver.quit()
