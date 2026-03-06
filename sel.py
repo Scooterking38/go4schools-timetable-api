@@ -43,10 +43,38 @@ for row in rows:
         "room": cols[5].text
     })
 
+homework_link = wait.until(
+    EC.element_to_be_clickable((By.XPATH, "//a[contains(., 'Homework')]"))
+)
+
+driver.execute_script("arguments[0].click();", homework_link)
+
+homework_rows = wait.until(
+    EC.presence_of_all_elements_located((By.CSS_SELECTOR, "table.table tbody tr"))
+)
+
+homework = []
+
+for row in homework_rows:
+    cols = row.find_elements(By.TAG_NAME, "td")
+
+    homework.append({
+        "due": cols[1].text,
+        "subject": cols[2].text.split("\n")[0],
+        "task": cols[3].text.split("\n")[0],
+        "status": cols[4].text,
+        "grade": cols[5].text,
+        "set": cols[6].text.split("\n")[0],
+        "teacher": cols[6].text.split("\n")[1] if "\n" in cols[6].text else ""
+    })
+
 driver.quit()
 
 # save JSON
 with open("timetable.json", "w") as f:
     json.dump(timetable, f, indent=2)
+with open("homework.json", "w") as f:
+    json.dump(homework, f, indent=2)
 
+print("Saved homework.json")
 print("Saved timetable.json")
