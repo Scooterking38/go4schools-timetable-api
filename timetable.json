@@ -3,30 +3,30 @@
     "start": "08:50",
     "end": "09:15",
     "subject": "Registration, 10B2/Rg",
-    "room": "522"
+    "room": "22"
   },
   {
     "start": "09:20",
     "end": "10:30",
     "subject": "Physics, 10YT/Ph",
-    "room": "401 Science Lab"
+    "room": "01 Science Lab"
   },
   {
     "start": "10:50",
     "end": "12:00",
     "subject": "Mathematics, 10y/Ma1",
-    "room": "308"
+    "room": "08"
   },
   {
     "start": "12:40",
     "end": "13:50",
     "subject": "Geography, 10P/Gg1",
-    "room": "412"
+    "room": "12"
   },
   {
     "start": "14:05",
     "end": "15:15",
     "subject": "English Literature, 10YM./Et",
-    "room": "202"
+    "room": "02"
   }
 ]
