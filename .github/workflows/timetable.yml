@@ -3,7 +3,7 @@ name: Fetch Timetable
 on:
   workflow_dispatch:  # manual run
   schedule:
-    - cron: "0 6 * * 1-5" # 6:00 AM UTC Mon-Fri
+    - cron: "0 6 * * *" # 6:00 AM UTC Mon-Fri
 
 jobs:
   run:
