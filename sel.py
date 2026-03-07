@@ -6,6 +6,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 
 
 USERNAME = os.environ["USERNAME"]
@@ -24,7 +25,6 @@ driver = webdriver.Firefox(options=options)
 wait = WebDriverWait(driver, 30)
 
 timetable = []
-homework = []
 
 try:
 
@@ -40,12 +40,15 @@ try:
     password.send_keys(PASSWORD)
     password.send_keys(Keys.RETURN)
 
-    # wait for timetable rows to load
-    rows = wait.until(
-        EC.presence_of_all_elements_located((By.CSS_SELECTOR, "tr.ghost-content"))
-    )
+    # try to wait for timetable rows
+    try:
+        rows = wait.until(
+            EC.presence_of_all_elements_located((By.CSS_SELECTOR, "tr.ghost-content"))
+        )
+    except TimeoutException:
+        rows = []
 
-    # scrape timetable
+    # scrape timetable if rows exist
     for row in rows:
 
         cols = row.find_elements(By.XPATH, "./th|./td")
@@ -60,39 +63,6 @@ try:
             "room": get(cols, 5)
         })
 
-    # go to homework page
-    homework_link = wait.until(
-        EC.element_to_be_clickable((By.XPATH, "//a[contains(., 'Homework')]"))
-    )
-
-    homework_link.click()
-
-    homework_rows = wait.until(
-        EC.presence_of_all_elements_located(
-            (By.CSS_SELECTOR, "table.table tbody tr")
-        )
-    )
-
-    # scrape homework
-    for row in homework_rows:
-
-        cols = row.find_elements(By.TAG_NAME, "td")
-
-        if len(cols) < 7:
-            continue
-
-        teacher_info = get(cols, 6).split("\n")
-
-        homework.append({
-            "due": get(cols, 1),
-            "subject": get(cols, 2).split("\n")[0],
-            "task": get(cols, 3).split("\n")[0],
-            "status": get(cols, 4),
-            "grade": get(cols, 5),
-            "set": teacher_info[0] if teacher_info else "",
-            "teacher": teacher_info[1] if len(teacher_info) > 1 else ""
-        })
-
 finally:
     driver.quit()
 
@@ -101,10 +71,5 @@ finally:
 with open("timetable.json", "w") as f:
     json.dump(timetable, f, indent=2)
 
-# save homework
-with open("homework.json", "w") as f:
-    json.dump(homework, f, indent=2)
-
 
 print("Saved timetable.json")
-print("Saved homework.json")
