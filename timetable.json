@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "start": "08:50",
+    "end": "09:15",
+    "subject": "Registration, 10B2/Rg",
+    "room": "522"
+  },
+  {
+    "start": "09:20",
+    "end": "10:30",
+    "subject": "English Language, 10YM./En",
+    "room": "211"
+  },
+  {
+    "start": "10:50",
+    "end": "12:00",
+    "subject": "Physics, 10YT/Ph",
+    "room": "304 Science Lab"
+  },
+  {
+    "start": "12:40",
+    "end": "13:50",
+    "subject": "Computer Science, 10Q/Cs1",
+    "room": "526 ICT"
+  },
+  {
+    "start": "14:05",
+    "end": "15:15",
+    "subject": "English Language, 10YM./En",
+    "room": "211"
+  }
+]
