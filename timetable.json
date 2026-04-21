@@ -8,25 +8,25 @@
   {
     "start": "09:20",
     "end": "10:30",
-    "subject": "English Language, 10YM./En",
-    "room": "211"
+    "subject": "PSHE, 10B2/Ps",
+    "room": "522"
   },
   {
     "start": "10:50",
     "end": "12:00",
-    "subject": "Physics, 10YT/Ph",
-    "room": "304 Science Lab"
+    "subject": "Mathematics, 10y/Ma1",
+    "room": "308"
   },
   {
     "start": "12:40",
     "end": "13:50",
-    "subject": "Computer Science, 10Q/Cs1",
-    "room": "526 ICT"
+    "subject": "Physical Education, 10y/Pe3",
+    "room": "565 Gym"
   },
   {
     "start": "14:05",
     "end": "15:15",
-    "subject": "English Language, 10YM./En",
-    "room": "211"
+    "subject": "Computer Science, 10Q/Cs1",
+    "room": "526 ICT"
   }
 ]
