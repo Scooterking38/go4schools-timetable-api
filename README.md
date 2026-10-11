@@ -1,20 +1,64 @@
-Here is a clean and professional README.md for the go4schools-timetable-api repository:
+# go4schools-timetable-api
 
-**Go4Schools Timetable API**
-A Python-based RESTful API for managing school timetables.
+**One-line Tagline:** A Python-based API to scrape and parse school timetables from Go4Schools.
 
-## Features
+## Architecture Overview
 
-* Generates timetables from JSON input (timetable.json)
-* Allows querying of timetable data using Python scripting (sel.py)
+The `go4schools-timetable-api` repository is structured to automate the process of scraping school timetables from the Go4Schools website. The core components are:
+
+- **sel.py**: This script uses Selenium WebDriver to interact with the Go4Schools login page, authenticate using environment variables for credentials, and extract timetable data.
+- **timetable.json**: Stores the extracted timetable data in JSON format.
+- **homework.json**: Placeholder for potential future use to store homework-related data.
+- **README.md**: This document.
+
+The script (`sel.py`) is designed to run headlessly, making it suitable for automated tasks. It leverages Selenium's capabilities to handle dynamic web content and extract structured timetable information.
 
 ## Tech Stack
-- Python 3.x
 
-## Installation and Getting Started
+- **Programming Language:** Python
+- **Web Scraping Framework:** Selenium WebDriver
+- **Browser Automation:** Firefox (GeckoDriver)
+- **Data Handling:** JSON (for storing extracted data)
 
-1. Clone the repository: `git clone https://github.com/your-username/go4schools-timetable-api.git`
-2. Install dependencies: `pip install -r requirements.txt` (assuming a `requirements.txt` file is present)
-3. Run the API: `python app.py` (assuming an `app.py` file is present)
+## Getting Started / Setup Guide
 
-Note: This README does not provide instructions for creating the JSON files or setting up a Python environment.
+### Prerequisites
+
+1. **Python Installation**: Ensure you have Python 3.x installed on your system.
+2. **Selenium WebDriver**: Install Selenium using pip:
+   ```bash
+   pip install selenium
+   ```
+3. **GeckoDriver**: Download and set up GeckoDriver for Firefox. Ensure it's in your system's PATH or specify the path in the script.
+
+### Environment Variables
+
+Set the following environment variables to securely store your Go4Schools credentials:
+
+```bash
+export USERNAME="your_username"
+export PASSWORD="your_password"
+```
+
+### Running the Script
+
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/yourusername/go4schools-timetable-api.git
+   cd go4schools-timetable-api
+   ```
+
+2. **Execute the Script**:
+   ```bash
+   python sel.py
+   ```
+
+This will initiate the scraping process, log in to Go4Schools, and save the extracted timetable data into `timetable.json`.
+
+### Notes
+
+- Ensure your network connection is stable during execution.
+- The script is designed to run headlessly. If you encounter issues, consider running it without headless mode for debugging purposes.
+- The JSON files (`timetable.json` and `homework.json`) are used to store the extracted data. You can modify these files as needed for further processing or integration with other systems.
+
+For any issues or feature requests, please open an issue in the [GitHub repository](https://github.com/yourusername/go4schools-timetable-api).
